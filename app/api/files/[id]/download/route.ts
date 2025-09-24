@@ -4,8 +4,10 @@ import {getSupabaseAdmin} from "@/lib/supabaseServer";
 
 export async function GET(
   request: NextRequest,
-  {params}: {params: {id: string}}
+  context: {params: {id: string}}
 ) {
+  const {params} = context;
+
   const session = await auth();
   if (!session?.user) {
     return NextResponse.json({error: "Unauthorized"}, {status: 401});
