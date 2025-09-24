@@ -1,19 +1,26 @@
-import {NextResponse, NextRequest} from "next/server";
+import {NextRequest, NextResponse} from "next/server";
 import {auth} from "@/lib/auth";
 import {getSupabaseAdmin} from "@/lib/supabaseServer";
 import {revalidatePath} from "next/cache";
 
-export async function DELETE(_req: NextRequest, context) {
+type Session = {
+  user: {
+    id: string;
+    email: string;
+  };
+  userId: string;
+};
+
+export async function DELETE(
+  _req: NextRequest,
+  context: {params: {id: string}} // ✅ typed
+) {
   const {params} = context;
 
-  const session = await auth();
+  const session = (await auth()) as Session | null;
+
   if (!session?.user) {
     return NextResponse.json({error: "Unauthorized"}, {status: 401});
-  }
-
-  const userId = (session as any).userId;
-  if (!userId) {
-    return NextResponse.json({error: "Missing user id"}, {status: 400});
   }
 
   const supabase = getSupabaseAdmin();
@@ -22,7 +29,7 @@ export async function DELETE(_req: NextRequest, context) {
     .from("files")
     .select("*")
     .eq("id", params.id)
-    .eq("user_identifier", userId)
+    .eq("user_identifier", session.userId)
     .single();
 
   if (selectError || !fileRow) {
