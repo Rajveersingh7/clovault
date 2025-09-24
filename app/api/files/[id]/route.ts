@@ -1,0 +1,53 @@
+import {NextResponse, NextRequest} from "next/server";
+import {auth} from "@/lib/auth";
+import {getSupabaseAdmin} from "@/lib/supabaseServer";
+import {revalidatePath} from "next/cache";
+
+export async function DELETE(
+  _req: NextRequest,
+  {params}: {params: {id: string}}
+) {
+  const session = await auth();
+  if (!session?.user) {
+    return NextResponse.json({error: "Unauthorized"}, {status: 401});
+  }
+
+  const userId = (session as any).userId as string | undefined;
+  if (!userId) {
+    return NextResponse.json({error: "Missing user id"}, {status: 400});
+  }
+
+  const supabase = getSupabaseAdmin();
+
+  const {data: fileRow, error: selectError} = await supabase
+    .from("files")
+    .select("*")
+    .eq("id", params.id)
+    .eq("user_identifier", userId)
+    .single();
+
+  if (selectError || !fileRow) {
+    return NextResponse.json({error: "Not found"}, {status: 404});
+  }
+
+  const {error: removeError} = await supabase.storage
+    .from("user-files")
+    .remove([fileRow.storage_path]);
+
+  if (removeError) {
+    return NextResponse.json({error: removeError.message}, {status: 500});
+  }
+
+  const {error: deleteError} = await supabase
+    .from("files")
+    .delete()
+    .eq("id", params.id);
+
+  if (deleteError) {
+    return NextResponse.json({error: deleteError.message}, {status: 500});
+  }
+
+  revalidatePath("/dashboard");
+
+  return NextResponse.json({ok: true});
+}
