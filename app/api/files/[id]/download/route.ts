@@ -2,10 +2,7 @@ import {NextRequest, NextResponse} from "next/server";
 import {auth} from "@/lib/auth";
 import {getSupabaseAdmin} from "@/lib/supabaseServer";
 
-export async function GET(
-  request: NextRequest,
-  context: {params: Record<string, string>}
-) {
+export async function GET(request: NextRequest, context) {
   const {params} = context;
 
   const session = await auth();
@@ -13,7 +10,7 @@ export async function GET(
     return NextResponse.json({error: "Unauthorized"}, {status: 401});
   }
 
-  const userId = (session as any).userId as string | undefined;
+  const userId = (session as any).userId;
   if (!userId) {
     return NextResponse.json({error: "Missing user id"}, {status: 400});
   }
