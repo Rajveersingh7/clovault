@@ -2,7 +2,12 @@ import {NextRequest, NextResponse} from "next/server";
 import {auth} from "@/lib/auth";
 import {getSupabaseAdmin} from "@/lib/supabaseServer";
 
-export async function GET(_req: NextRequest, {params}: {params: {id: string}}) {
+type Props = {
+  params: {id: string};
+  searchParams: {[key: string]: string | string[] | undefined};
+};
+
+export async function GET(request: NextRequest, {params}: Props) {
   const session = await auth();
   if (!session?.user) {
     return NextResponse.json({error: "Unauthorized"}, {status: 401});
