@@ -4,7 +4,7 @@ import {getSupabaseAdmin} from "@/lib/supabaseServer";
 
 export async function GET(
   request: NextRequest,
-  context: {params: {id: string}}
+  context: {params: Record<string, string>}
 ) {
   const {params} = context;
 
