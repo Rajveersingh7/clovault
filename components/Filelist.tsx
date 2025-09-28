@@ -56,19 +56,19 @@ function Filelist() {
 
   if (loading)
     return (
-      <div className="h-full min-h-0 py-7 pr-7">
+      <div className="h-full min-h-0 p-4 md:py-7 md:pr-7">
         <ul className="list bg-white border border-stone-200 rounded-lg animate-pulse h-full overflow-auto divide-y divide-stone-200">
-          <li className="p-4 pb-2 text-s opacity-60 tracking-wide sticky top-0 bg-white z-10">
+          <li className="p-3 md:p-4 pb-2 text-xs md:text-s opacity-60 tracking-wide sticky top-0 bg-white z-10">
             My Files
           </li>
           {Array.from({length: 8}).map((_, idx) => (
-            <li key={idx} className="list-row px-7">
+            <li key={idx} className="list-row px-4 md:px-7">
               <div className="list-col-grow">
-                <div className="h-4 w-48 bg-stone-200 rounded mb-2" />
-                <div className="h-3 w-32 bg-stone-200 rounded" />
+                <div className="h-3 md:h-4 w-32 md:w-48 bg-stone-200 rounded mb-2" />
+                <div className="h-2 md:h-3 w-24 md:w-32 bg-stone-200 rounded" />
               </div>
-              <div className="h-6 w-6 bg-stone-200 rounded-full mr-3" />
-              <div className="h-6 w-6 bg-stone-200 rounded-full" />
+              <div className="h-5 w-5 md:h-6 md:w-6 bg-stone-200 rounded-full mr-2 md:mr-3" />
+              <div className="h-5 w-5 md:h-6 md:w-6 bg-stone-200 rounded-full" />
             </li>
           ))}
         </ul>
@@ -77,12 +77,12 @@ function Filelist() {
 
   if (files.length === 0)
     return (
-      <div className="h-full min-h-0 py-7 pr-7">
+      <div className="h-full min-h-0 p-4 md:py-7 md:pr-7">
         <ul className="list bg-white border border-stone-200 rounded-lg h-full overflow-auto divide-y divide-stone-200">
-          <li className="p-4 pb-2 text-s opacity-60 tracking-wide sticky top-0 bg-white z-10">
+          <li className="p-3 md:p-4 pb-2 text-xs md:text-s opacity-60 tracking-wide sticky top-0 bg-white z-10">
             My Files
           </li>
-          <li className="flex items-center justify-center pt-4">
+          <li className="flex items-center justify-center pt-8 md:pt-4">
             <div className="text-sm opacity-70">No Files yet.</div>
           </li>
         </ul>
@@ -90,22 +90,23 @@ function Filelist() {
     );
 
   return (
-    <div className="h-full min-h-0 py-7 pr-7">
+    <div className="h-full min-h-0 p-4 md:py-7 md:pr-7">
       <ul className="list bg-white border border-stone-200 rounded-lg h-full overflow-auto divide-y divide-stone-200">
-        <li className="p-4 pb-2 text-s opacity-60 tracking-wide sticky top-0 bg-white z-10">
+        <li className="p-3 md:p-4 pb-2 text-xs md:text-s opacity-60 tracking-wide sticky top-0 bg-white z-10">
           My Files
         </li>
         {files.map((f) => (
-          <li key={f.id} className="list-row px-7">
-            <div className="list-col-grow">
-              <div>{f.original_name}</div>
-              <div className="text-xs font-semibold opacity-60">
-                Date: {new Date(f.created_at).toLocaleDateString()} • Size:{" "}
-                {formatBytes(f.size_bytes)}
+          <li key={f.id} className="flex items-center px-4 md:px-7 py-3 md:py-4 hover:bg-stone-50">
+            <div className="flex-1 min-w-0 mr-2">
+              <div className="text-sm md:text-base truncate">{f.original_name}</div>
+              <div className="text-xs font-semibold opacity-60 flex flex-wrap gap-1">
+                <span>Date: {new Date(f.created_at).toLocaleDateString()}</span>
+                <span className="hidden sm:inline">•</span>
+                <span>Size: {formatBytes(f.size_bytes)}</span>
               </div>
             </div>
             <button
-              className="flex btn btn-square btn-ghost"
+              className="flex btn btn-square btn-ghost btn-sm md:btn-md"
               onClick={() => {
                 window.open(`/api/files/${f.id}/download`, "_self");
               }}
@@ -114,28 +115,35 @@ function Filelist() {
               <Image
                 src="/download.svg"
                 alt="download"
-                width={25}
-                height={25}
+                width={20}
+                height={20}
+                className="md:w-[25px] md:h-[25px]"
               />
             </button>
             <button
-              className="flex btn btn-square btn-ghost"
+              className="flex btn btn-square btn-ghost btn-sm md:btn-md"
               onClick={() => setConfirmingId(f)}
               title="Delete"
             >
-              <Image src="/delete.svg" alt="delete" width={25} height={25} />
+              <Image 
+                src="/delete.svg" 
+                alt="delete" 
+                width={20} 
+                height={20}
+                className="md:w-[25px] md:h-[25px]"
+              />
             </button>
           </li>
         ))}
       </ul>
 
       {confirmingId && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
           <div className="bg-white text-black rounded-xl shadow-2xl w-full max-w-md border border-stone-200">
-            <div className="p-5 border-b border-stone-200 text-lg font-semibold">
+            <div className="p-4 md:p-5 border-b border-stone-200 text-base md:text-lg font-semibold">
               Confirm delete
             </div>
-            <div className="p-5 space-y-3">
+            <div className="p-4 md:p-5 space-y-3">
               <div className="text-sm opacity-80">
                 Are you sure you want to delete:
               </div>
@@ -143,9 +151,9 @@ function Filelist() {
                 {confirmingId.original_name}
               </div>
             </div>
-            <div className="p-5 flex gap-3 justify-end border-t border-stone-200">
+            <div className="p-4 md:p-5 flex gap-3 justify-end border-t border-stone-200">
               <button
-                className={`btn btn-ghost${
+                className={`btn btn-sm md:btn-md btn-ghost${
                   deleting ? " pointer-events-none opacity-60" : ""
                 }`}
                 onClick={() => setConfirmingId(null)}
@@ -153,7 +161,7 @@ function Filelist() {
                 Cancel
               </button>
               <button
-                className={`btn bg-red-500 hover:bg-red-600 text-white${
+                className={`btn btn-sm md:btn-md bg-red-500 hover:bg-red-600 text-white${
                   deleting ? " pointer-events-none opacity-70" : ""
                 }`}
                 onClick={async () => {
