@@ -80,12 +80,12 @@ const NotificationContainer = ({
   removeNotification: (id: number) => void;
 }) => {
   return (
-    <div className="fixed top-22 left-4 right-auto z-50 max-w-xs w-full sm:max-w-sm">
+    <div className="fixed top-20 md:top-22 left-2 right-2 sm:left-4 sm:right-auto z-50 max-w-full sm:max-w-sm">
       <div className="flex flex-col gap-2">
         {notifications.map((notification) => (
           <div
             key={notification.id}
-            className={`alert pointer-events-auto transform transition-all duration-300 max-w-md ${
+            className={`alert pointer-events-auto transform transition-all duration-300 text-sm md:text-base ${
               notification.type === "success"
                 ? "alert-success bg-green-100 border-green-500 text-green-700"
                 : "alert-error bg-red-100 border-red-500 text-red-700"
@@ -93,7 +93,7 @@ const NotificationContainer = ({
           >
             {notification.type === "success" ? (
               <svg
-                className="w-5 h-5"
+                className="w-4 h-4 md:w-5 md:h-5 flex-shrink-0"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -106,7 +106,7 @@ const NotificationContainer = ({
               </svg>
             ) : (
               <svg
-                className="w-5 h-5"
+                className="w-4 h-4 md:w-5 md:h-5 flex-shrink-0"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -119,13 +119,13 @@ const NotificationContainer = ({
                 <line x1="9" y1="9" x2="15" y2="15" />
               </svg>
             )}
-            <span className="flex-1">{notification.message}</span>
+            <span className="flex-1 break-words">{notification.message}</span>
             <button
               onClick={() => removeNotification(notification.id)}
-              className="btn btn-ghost btn-xs"
+              className="btn btn-ghost btn-xs flex-shrink-0"
             >
               <svg
-                className="w-4 h-4"
+                className="w-3 h-3 md:w-4 md:h-4"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
