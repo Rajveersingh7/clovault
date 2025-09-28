@@ -5,4 +5,54 @@
 
 body {
   background-color: #f7f5f2;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Prevent horizontal scroll on mobile */
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* Fix for iOS Safari bounce */
+.list {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Mobile-friendly scrollbar */
+@media (max-width: 640px) {
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 2px;
+  }
+}
+
+/* Fix list row layout on mobile */
+.list-row {
+  display: flex;
+  align-items: center;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+
+.list-col-grow {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Ensure modals are properly positioned on mobile */
+@media (max-width: 640px) {
+  .modal, .fixed {
+    -webkit-transform: translateZ(0);
+  }
 }
