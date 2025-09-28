@@ -125,10 +125,10 @@ function Dropzone({onUploaded}: DropzoneProps) {
       >
         {({getRootProps, getInputProps, isDragActive, isDragReject}) => {
           return (
-            <section className="p-7 h-full">
+            <section className="p-4 md:p-7 h-full">
               <div
                 {...getRootProps()}
-                className={`w-full h-full flex flex-col justify-center items-center border border-stone-200 rounded-lg text-center cursor-pointer p-5 text-xl ${
+                className={`w-full h-full flex flex-col justify-center items-center border border-stone-200 rounded-lg text-center cursor-pointer p-4 md:p-5 text-base md:text-lg lg:text-xl ${
                   isDragActive
                     ? "bg-blue-500 animate-pulse"
                     : "bg-white text-black"
@@ -137,15 +137,15 @@ function Dropzone({onUploaded}: DropzoneProps) {
                 <Image
                   src="/upload.svg"
                   alt="upload"
-                  width={50}
-                  height={50}
-                  className="opacity-70"
+                  width={40}
+                  height={40}
+                  className="opacity-70 md:w-[50px] md:h-[50px]"
                 />
                 <input {...getInputProps()} />
-                <span className="opacity-70">
+                <span className="opacity-70 mt-2 text-sm md:text-base px-2">
                   {isDragActive
-                    ? "Drop to upload this file!"
-                    : "Click here or drop a file to upload!"}
+                    ? "Drop to upload!"
+                    : "Click or drop files here"}
                 </span>
               </div>
             </section>
@@ -154,22 +154,22 @@ function Dropzone({onUploaded}: DropzoneProps) {
       </DropzoneComponent>
 
       {pendingFiles && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
           <div className="bg-white text-black rounded-xl shadow-2xl w-full max-w-lg border border-stone-200">
-            <div className="p-5 border-b border-stone-200 text-lg font-semibold">
+            <div className="p-4 md:p-5 border-b border-stone-200 text-base md:text-lg font-semibold">
               Confirm upload
             </div>
-            <div className="p-5 space-y-3 max-h-80 overflow-auto">
+            <div className="p-4 md:p-5 space-y-3 max-h-60 md:max-h-80 overflow-auto">
               <div className="text-sm opacity-80">You are about to upload:</div>
               <ul className="list-disc list-inside text-sm">
                 {pendingFiles.map((f) => (
-                  <li key={f.name + f.size}>{f.name}</li>
+                  <li key={f.name + f.size} className="truncate">{f.name}</li>
                 ))}
               </ul>
             </div>
-            <div className="p-5 flex gap-3 justify-end border-t border-stone-200">
+            <div className="p-4 md:p-5 flex gap-3 justify-end border-t border-stone-200">
               <button
-                className={`btn btn-ghost${
+                className={`btn btn-sm md:btn-md btn-ghost${
                   loading ? " pointer-events-none opacity-60" : ""
                 }`}
                 onClick={cancelUpload}
@@ -177,7 +177,7 @@ function Dropzone({onUploaded}: DropzoneProps) {
                 Cancel
               </button>
               <button
-                className={`btn bg-blue-500 hover:bg-blue-600 text-white${
+                className={`btn btn-sm md:btn-md bg-blue-500 hover:bg-blue-600 text-white${
                   loading ? " pointer-events-none opacity-70" : ""
                 }`}
                 onClick={confirmUpload}
