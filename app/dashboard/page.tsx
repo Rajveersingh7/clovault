@@ -10,11 +10,11 @@ export default async function Dashboard() {
   }
 
   return (
-    <div className="h-[calc(100vh-4.5rem)] flex items-stretch">
-      <div className="w-1/4 h-full">
+    <div className="h-[calc(100vh-4.5rem)] flex flex-col md:flex-row items-stretch">
+      <div className="w-full md:w-1/3 lg:w-1/4 h-48 md:h-full border-b md:border-b-0 md:border-r border-stone-200">
         <Dropzone />
       </div>
-      <div className="w-3/4 h-full">
+      <div className="w-full md:w-2/3 lg:w-3/4 flex-1 md:h-full overflow-hidden">
         <Filelist />
       </div>
     </div>
