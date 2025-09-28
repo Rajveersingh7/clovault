@@ -33,7 +33,7 @@ export default async function Header() {
               className="btn btn-sm md:btn-md text-white bg-blue-500 hover:bg-blue-600 border border-gray-200 rounded-lg shadow-sm px-3 md:px-4"
             >
               <span className="hidden sm:inline">Sign up</span>
-              <span className="sm:hidden">Get Started</span>
+              <span className="sm:hidden">Continue</span>
             </Link>
           </>
         )}
